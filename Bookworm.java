@@ -17,12 +17,18 @@ public class Bookworm {
 
     }
 
+    public void printGrid(String[][] grid){
+
+    }
+
     public static void main(String[] args) {
         
         // Find and construct our test file and grid
         File inputFile;
-        char[][] grid;
-        String fileName = args[0];
+        String[][] grid = new String[8][8];
+        
+        Scanner userInput = new Scanner(System.in);
+        String fileName = userInput.nextLine();
         inputFile = new File(fileName);
 
         // Construct the grid using inputFile
@@ -34,5 +40,8 @@ public class Bookworm {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("Enter a word to find: ");
+        String targetWord = userInput.nextLine();
     }
 }
