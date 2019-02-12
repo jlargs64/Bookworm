@@ -19,10 +19,14 @@ public class Bookworm {
     }
 
     public void printGrid(String[][] grid) {
+
         System.out.println();
+        //Print out each row at a time to look
+        //similar to how the game looks IRL
         for (int col = 0; col < grid.length; col++) {
             for (int row = 0; row < grid.length; row++) {
 
+                //Any uninitialized array space to be replaced with a space
                 if (grid[row][col] == null) {
                     System.out.print("  ");
                 } else {
@@ -47,15 +51,19 @@ public class Bookworm {
             String fileName = userInput.nextLine();
             File inputFile = new File(fileName);
 
+            //Collect cols and words from file
             Scanner scanner = new Scanner(inputFile);
             int row = 0;
             int col = 0;
             int lineCount = 0;
             while (scanner.hasNextLine()) {
+
+                //Read in our cols for the first 7 lines
                 if (lineCount <= 7){
                     String currentCol = scanner.nextLine();
                     for (int i = 0; i < currentCol.length(); i++) {
 
+                        //Account for adding u to Q
                         if (currentCol.charAt(i) == 'Q' || currentCol.charAt(i) == 'q') {
                             // I use the +"" to make the char into a string
                             grid[row][col] = currentCol.charAt(i) + "u";
@@ -65,9 +73,12 @@ public class Bookworm {
                         }
                         col++;
                     }
+                    //Increment row to keep reading in each row and reset col
                     row++;
                     col = 0;                   
-                }else{
+                }
+                //Read our words after blank space and add to arraylist
+                else{
                     if (lineCount == 8){
                         scanner.nextLine();
                     }
@@ -80,6 +91,7 @@ public class Bookworm {
             Bookworm b = new Bookworm();
             b.printGrid(grid);
 
+            //Prompt user to find a word in the grid
             System.out.println("Enter a word to find: ");
             String targetWord = userInput.nextLine();
 
