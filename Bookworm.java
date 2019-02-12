@@ -5,6 +5,7 @@
  */
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Bookworm {
@@ -37,6 +38,8 @@ public class Bookworm {
         try {
             // Construct the grid
             String[][] grid = new String[8][8];
+            ArrayList<String> words = new ArrayList<>();
+
             // Prompt the user for input and
             // construct the grid using inputFile
             Scanner userInput = new Scanner(System.in);
@@ -47,21 +50,31 @@ public class Bookworm {
             Scanner scanner = new Scanner(inputFile);
             int row = 0;
             int col = 0;
+            int lineCount = 0;
             while (scanner.hasNextLine()) {
-                String currentCol = scanner.nextLine();
-                for (int i = 0; i < currentCol.length(); i++) {
+                if (lineCount <= 7){
+                    String currentCol = scanner.nextLine();
+                    for (int i = 0; i < currentCol.length(); i++) {
 
-                    if (currentCol.charAt(i) == 'Q' || currentCol.charAt(i) == 'q') {
-                        // I use the +"" to make the char into a string
-                        grid[row][col] = currentCol.charAt(i) + "u";
-                    } else {
+                        if (currentCol.charAt(i) == 'Q' || currentCol.charAt(i) == 'q') {
+                            // I use the +"" to make the char into a string
+                            grid[row][col] = currentCol.charAt(i) + "u";
+                        } else {
 
-                        grid[row][col] = currentCol.charAt(i) + "";
+                            grid[row][col] = currentCol.charAt(i) + "";
+                        }
+                        col++;
                     }
-                    col++;
-                }
-                row++;
-                col = 0;
+                    row++;
+                    col = 0;                   
+                }else{
+                    if (lineCount == 8){
+                        scanner.nextLine();
+                    }
+                    String word = scanner.nextLine();
+                    words.add(word);
+                } 
+                lineCount++;
             }
             // Print out the grid
             Bookworm b = new Bookworm();
