@@ -10,12 +10,31 @@ import java.util.Scanner;
 
 public class Bookworm {
 
-    public void findWord(String targetWord) {
+    public void findWord(String targetWord, String[][] grid) {
 
+        //Use this to display if search failed to find a char that starts with target
+        int charsFound = 0;
+        for(int row = 0; row < grid.length; row++){
+            for(int col = 0; col < grid.length; col++){
+                
+                //If search finds a starting char start a recursive search there
+                //We put them both at lowercase to make sure capitalizations don't throw results
+                if(grid[row][col].toLowerCase().startsWith((targetWord.charAt(0)+"").toLowerCase())){
+
+                    findWord(targetWord, grid, grid[row][col], row, col);
+                    charsFound++;
+                }
+            }
+        }
+        
+        //If no chars were found, print an error
+        if(charsFound == 0){
+            System.out.println(targetWord = " was not found.");
+        }    
     }
 
-    public void findWord(String targetWord, String currentWord) {
-
+    public void findWord(String targetWord, String[][] grid, String currentWord, int row, int col) {
+        
     }
 
     public void printGrid(String[][] grid) {
@@ -94,6 +113,7 @@ public class Bookworm {
             //Prompt user to find a word in the grid
             System.out.println("Enter a word to find: ");
             String targetWord = userInput.nextLine();
+            b.findWord(targetWord, grid);
 
             userInput.close();          
             scanner.close();
