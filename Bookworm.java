@@ -17,31 +17,63 @@ public class Bookworm {
 
     }
 
-    public void printGrid(String[][] grid){
+    public void printGrid(String[][] grid) {
+        System.out.println();
+        for (int col = 0; col < grid.length; col++) {
+            for (int row = 0; row < grid.length; row++) {
 
+                if (grid[row][col] == null) {
+                    System.out.print("  ");
+                } else {
+                    System.out.print(grid[row][col] + " ");
+                }
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
-        
-        // Find and construct our test file and grid
-        File inputFile;
-        String[][] grid = new String[8][8];
-        
-        Scanner userInput = new Scanner(System.in);
-        String fileName = userInput.nextLine();
-        inputFile = new File(fileName);
 
-        // Construct the grid using inputFile
         try {
+            // Construct the grid
+            String[][] grid = new String[8][8];
+            // Prompt the user for input and
+            // construct the grid using inputFile
+            Scanner userInput = new Scanner(System.in);
+            System.out.print("Welcome to Bookworm! Please enter the name of a text file: ");
+            String fileName = userInput.nextLine();
+            File inputFile = new File(fileName);
+
             Scanner scanner = new Scanner(inputFile);
+            int row = 0;
+            int col = 0;
             while (scanner.hasNextLine()) {
                 String currentCol = scanner.nextLine();
+                for (int i = 0; i < currentCol.length(); i++) {
+
+                    if (currentCol.charAt(i) == 'Q' || currentCol.charAt(i) == 'q') {
+                        // I use the +"" to make the char into a string
+                        grid[row][col] = currentCol.charAt(i) + "u";
+                    } else {
+
+                        grid[row][col] = currentCol.charAt(i) + "";
+                    }
+                    col++;
+                }
+                row++;
+                col = 0;
             }
+            // Print out the grid
+            Bookworm b = new Bookworm();
+            b.printGrid(grid);
+
+            System.out.println("Enter a word to find: ");
+            String targetWord = userInput.nextLine();
+
+            userInput.close();          
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println("Enter a word to find: ");
-        String targetWord = userInput.nextLine();
     }
 }
