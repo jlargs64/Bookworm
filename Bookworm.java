@@ -40,12 +40,14 @@ public class Bookworm {
                 // If search finds a starting char start a recursive search there
                 // We put them both at lowercase to make sure capitalizations don't throw
                 // results
-                if (grid[row][col].toLowerCase().startsWith((targetWord.charAt(0) + "").toLowerCase())) {
+                if(grid[row][col] != null){
+                    if (grid[row][col].toLowerCase().startsWith((targetWord.charAt(0) + "").toLowerCase())) {
 
-                    charsUsed[row][col] = true;
-                    findWord(targetWord, grid[row][col], grid, row, col, charsUsed);
-                    charsFound++;
-                    return;
+                        charsUsed[row][col] = true;
+                        findWord(targetWord, grid[row][col], grid, row, col, charsUsed);
+                        charsFound++;
+                        return;
+                    }
                 }
             }
         }
@@ -67,30 +69,42 @@ public class Bookworm {
      * @param charsUsed
      */
     public void findWord(String targetWord, String currentWord, String[][] grid, int row, int col,
-            boolean[][] charsUsed) {
+    boolean[][] charsUsed) {
 
         // Check to see if the word is our target
         if (targetWord.equalsIgnoreCase(currentWord)) {
 
             System.out.println(targetWord + " was found.");
         } else {
+            boolean charFound = false;
+            // Search for next applicable char
+            int[] xNeighbors = { -1, 0, 1 };
+            int[] yNeighbors = { -1, 0, 1 };
 
-            //Search for next applicable char
-            for (int i = row ; i < grid.length; i++) {
-                for (int j = col; j < grid.length; j++) {
+            //The for loops are used to find neighbors
+            for (int x : xNeighbors) {
+                for (int y : yNeighbors) {
 
-                    // We see if the char is already used and if it's the next char we need
-                    // If true then mark char as used and concat char to word
-                    if (charsUsed[row][col] == false
-                            && grid[row][col].equalsIgnoreCase(targetWord.charAt(currentWord.length() + 1) + "")) {
+                    //The first two if statements are for avoiding out of bounds errors
+                    if (row + x < grid.length && row + x >= 0) {
+                        if (col + y < grid.length && col + y >= 0) {
 
-                        charsUsed[row][col] = true;
-                        currentWord.concat(grid[row][col]);
-                        // An extra check to make sure if the word just constructed is the target
-                        if (targetWord.equalsIgnoreCase(currentWord)) {
+                            // We see if the char is already used and if it's the next char we need
+                            // If true then mark char as used and concat char to word
+                            if (charsUsed[row][col] == false && grid[row][col]
+                            .equalsIgnoreCase(targetWord.charAt(currentWord.length() + 1) + "")) {
 
-                            System.out.println(targetWord + " was found.");
-                            return;
+                                charsUsed[row][col] = true;
+                                currentWord.concat(grid[row][col]);
+                                // An extra check to make sure if the word just constructed is the target
+                                if (targetWord.equalsIgnoreCase(currentWord)) {
+
+                                    System.out.println(targetWord + " was found.");
+                                    return;
+                                }else{
+                                    findWord(targetWord, currentWord, grid, row, col, charsUsed);
+                                }
+                            }
                         }
                     }
                 }
