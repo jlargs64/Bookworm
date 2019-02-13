@@ -12,6 +12,19 @@ public class Bookworm {
 
     public void findWord(String targetWord, String[][] grid) {
 
+        //Use this to keep track of chars in use
+        boolean[][] charsUsed = new boolean[8][8];
+        //Init the null spots in the grid array to true so they don't
+        //crash the program
+        for(int i = 0; i < charsUsed.length; i++){
+            charsUsed[7][i] = true;
+        }
+        for(int i = 0; i < charsUsed.length-1; i++){
+            if(i % 2 == 0 || i == 0){
+                charsUsed[i][7] = true;
+            }            
+        }
+
         //Use this to display if search failed to find a char that starts with target
         int charsFound = 0;
         for(int row = 0; row < grid.length; row++){
@@ -26,7 +39,7 @@ public class Bookworm {
                 }
             }
         }
-        
+
         //If no chars were found, print an error
         if(charsFound == 0){
             System.out.println(targetWord = " was not found.");
