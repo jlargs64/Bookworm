@@ -16,7 +16,7 @@ public class Bookworm {
      * @param targetWord
      * @param grid
      */
-    public void findWord(String targetWord, String[][] grid) {
+    public static void findWord(String targetWord, String[][] grid) {
 
         // Use this to keep track of chars in use
         boolean[][] charsUsed = new boolean[8][8];
@@ -68,7 +68,7 @@ public class Bookworm {
      * @param col
      * @param charsUsed
      */
-    public void findWord(String targetWord, String currentWord, String[][] grid, int row, int col,
+    public static void findWord(String targetWord, String currentWord, String[][] grid, int row, int col,
     boolean[][] charsUsed) {
 
         // Check to see if the word is our target
@@ -112,7 +112,7 @@ public class Bookworm {
         }
     }
 
-    public void printGrid(String[][] grid) {
+    public static void printGrid(String[][] grid) {
 
         System.out.println();
         // Print out each row at a time to look
@@ -182,13 +182,11 @@ public class Bookworm {
                 lineCount++;
             }
             // Print out the grid
-            Bookworm b = new Bookworm();
-            b.printGrid(grid);
+            printGrid(grid);
 
-            // Prompt user to find a word in the grid
-            System.out.println("Enter a word to find: ");
-            String targetWord = userInput.nextLine();
-            b.findWord(targetWord, grid);
+            for(String word : words){
+                findWord(word, grid);
+            }
 
             userInput.close();
             scanner.close();
