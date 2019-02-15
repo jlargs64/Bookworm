@@ -95,9 +95,21 @@ public class Bookworm {
 
                     // System.out.print(arr[x + row][y + col] + " ");
                     // If the char hasen't been used AND it equals the char needed
+                    
                     int currentRow = x + row;
                     int currentCol = y + col;
-
+                    if(currentRow > 6){
+                        currentRow = 6;
+                    }
+                    else if(currentRow < 0){
+                        currentRow = 0;
+                    }
+                    if(currentCol > 7){
+                        currentCol = 7;
+                    }
+                    else if(currentCol < 0){
+                        currentCol = 0;
+                    }
                     if (charsUsed[currentRow][currentCol] == false
                             && arr[currentRow][currentCol].equalsIgnoreCase(targetChar + "")) {
 
