@@ -75,6 +75,8 @@ public class Bookworm {
 
             System.out.println(targetWord + " was found.");
         } else {
+            // Count how many other times we can find another word
+            // If no words left print failure
 
             // Check to see the neighbors of the current element
             findNeighbors(grid, row, col, targetWord, currentWord, charsUsed);
@@ -95,26 +97,28 @@ public class Bookworm {
 
                     // System.out.print(arr[x + row][y + col] + " ");
                     // If the char hasen't been used AND it equals the char needed
-                    
+
                     int currentRow = x + row;
                     int currentCol = y + col;
-                    if(currentRow > 6){
+                    if (currentRow > 6) {
                         currentRow = 6;
-                    }
-                    else if(currentRow < 0){
+                    } else if (currentRow < 0) {
                         currentRow = 0;
                     }
-                    if(currentCol > 7){
+                    if (currentCol > 7) {
                         currentCol = 7;
-                    }
-                    else if(currentCol < 0){
+                    } else if (currentCol < 0) {
                         currentCol = 0;
                     }
                     if (charsUsed[currentRow][currentCol] == false
                             && arr[currentRow][currentCol].equalsIgnoreCase(targetChar + "")) {
 
+                        // Mark char as used and add to word
                         charsUsed[currentRow][currentCol] = true;
+
+                        // Add to word
                         currentWord = currentWord.concat(arr[currentRow][currentCol]);
+
                         // An extra check to make sure if the word just constructed is the target
                         if (targetWord.equalsIgnoreCase(currentWord)) {
 
@@ -179,7 +183,7 @@ public class Bookworm {
                         // Account for adding u to Q
                         if (currentCol.charAt(i) == 'Q' || currentCol.charAt(i) == 'q') {
                             // I use the +"" to make the char into a string
-                            grid[row][col] = currentCol.charAt(i) + "u";
+                            grid[row][col] = currentCol.charAt(i) + "U";
                         } else {
 
                             grid[row][col] = currentCol.charAt(i) + "";
@@ -192,7 +196,7 @@ public class Bookworm {
                 }
                 // Read our words after blank space and add to arraylist
                 else {
-                    if (lineCount == 8) {
+                    if (lineCount == 7) {
                         scanner.nextLine();
                     }
                     String word = scanner.nextLine();
