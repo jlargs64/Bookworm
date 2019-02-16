@@ -5,8 +5,9 @@
  */
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Bookworm {
 
@@ -16,27 +17,27 @@ public class Bookworm {
      * @param targetWord
      * @param grid
      */
-    public static void findWord(String targetWord, String currentWord, String[][] grid, boolean[][] charsUsed) {
+    public static void findWord(String targetWord, String currentWord, String[][] grid, List<String> words) {
+        // Use this to keep track of chars in use
+        boolean[][] charsUsed = new boolean[8][8];
+
+        // Init the null spots in the grid array to true so they
+        // don't crash the program
+        for (int i = 0; i < charsUsed.length; i++) {
+            charsUsed[7][i] = true;
+        }
+        for (int i = 0; i < charsUsed.length - 1; i++) {
+            if (i % 2 == 0 || i == 0) {
+                charsUsed[i][7] = true;
+            }
+        }
         // Check to see if the word is our target
         if (targetWord.equalsIgnoreCase(currentWord)) {
 
             System.out.println(targetWord + " was found.");
             return;
         }
-        boolean wordFound = false;
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid.length; col++) {
-                if (grid[row][col] != null) {
-                    if (grid[row][col].toLowerCase().startsWith((targetWord.charAt(0) + "").toLowerCase())) {
-                        wordFound = true;
-                    }
-                }
-            }
-        }
-        if (wordFound == false) {
-            System.out.println(targetWord + " has not been found.");
-            return;
-        }
+
         // Use this to display if search failed to find a char that starts with target
         int charsFound = 0;
         String targetChar = targetWord.charAt(currentWord.length()) + "";
@@ -54,21 +55,16 @@ public class Bookworm {
 
                         charsUsed[row][col] = true;
                         currentWord = targetChar + "";
-                        findNeighbors(grid, row, col, targetWord, currentWord, charsUsed);
+                        findNeighbors(grid, row, col, targetWord, currentWord, charsUsed, words);
                         charsFound++;
                     }
                 }
             }
         }
-
-        // If no chars were found, print an error
-        if (charsFound == 0) {
-            System.out.println(targetWord = " was not found.");
-        }
     }
 
     public static void findNeighbors(String[][] arr, int x, int y, String targetWord, String currentWord,
-            boolean[][] charsUsed) {
+            boolean[][] charsUsed, List<String> words) {
         // Keeping track of char for debugging purposes
         char targetChar = targetWord.charAt(currentWord.length());
 
@@ -106,11 +102,14 @@ public class Bookworm {
                         // An extra check to make sure if the word just constructed is the target
                         if (targetWord.equalsIgnoreCase(currentWord)) {
 
+                            //Remove the word here so that when printing everything that was 
+                            //not found it won't show up
+                            words.remove(targetWord);
                             System.out.println(targetWord + " was found.");
                             return;
                         } else {
                             
-                            findNeighbors(arr, currentRow, currentCol, targetWord, currentWord, charsUsed);
+                            findNeighbors(arr, currentRow, currentCol, targetWord, currentWord, charsUsed, words);
                             return;
                         }
                     }
@@ -144,7 +143,7 @@ public class Bookworm {
         try {
             // Construct the grid
             String[][] grid = new String[8][8];
-            ArrayList<String> words = new ArrayList<>();
+            List<String> words = new CopyOnWriteArrayList<String>();
 
             // Prompt the user for input and
             // construct the grid using inputFile
@@ -191,21 +190,13 @@ public class Bookworm {
             }
             // Print out the grid
             printGrid(grid);
-            // Use this to keep track of chars in use
-            boolean[][] charsUsed = new boolean[8][8];
-
-            // Init the null spots in the grid array to true so they
-            // don't crash the program
-            for (int i = 0; i < charsUsed.length; i++) {
-                charsUsed[7][i] = true;
-            }
-            for (int i = 0; i < charsUsed.length - 1; i++) {
-                if (i % 2 == 0 || i == 0) {
-                    charsUsed[i][7] = true;
-                }
-            }
+            
             for (String word : words) {
-                findWord(word, "", grid, charsUsed);
+                findWord(word, "", grid, words);
+            }
+            //Words found were removed from arraylist so we print words not found here
+            for (String word : words) {
+                System.out.println(word + " was not found in the grid.");
             }
 
             userInput.close();
