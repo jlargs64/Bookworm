@@ -151,8 +151,8 @@ public class Bookworm {
             // construct the grid using inputFile
             Scanner userInput = new Scanner(System.in);
             System.out.print("Welcome to Bookworm! Please enter the name of a text file: ");
-            // String fileName = userInput.nextLine();
-            File inputFile = new File("input.txt");
+            String fileName = userInput.nextLine();
+            File inputFile = new File(fileName);
 
             // Collect cols and words from file
             Scanner scanner = new Scanner(inputFile);
@@ -192,11 +192,12 @@ public class Bookworm {
             }
             // Print out the grid
             printGrid(grid);
-
+            System.out.println("\nWords Found:");
             for (String word : words) {
                 findWord(word, "", grid, words);
             }
             // Words found were removed from arraylist so we print words not found here
+            System.out.println("\nWords Not Found:");
             for (String word : words) {
                 System.out.println(word + " was not found in the grid.");
             }
