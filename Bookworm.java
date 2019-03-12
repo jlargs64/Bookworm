@@ -1,5 +1,10 @@
 
 /**
+ * The Bookworm class is used to solve the bookworm puzzle game 
+ * given a input file formatted so that the first 7 lines are the columns
+ * and a space followed by words you think are in the grid.
+ * All done recursively!
+ * 
  * @author Justin Largo
  * @version 2/22/19
  */
@@ -62,7 +67,18 @@ public class Bookworm {
             }
         }
     }
-
+    /**
+     * Finds the neighbors of the given element of the grid.
+     * It is used as a recursive helper method to findWords
+     * @param arr
+     * @param x
+     * @param y
+     * @param targetWord
+     * @param currentWord
+     * @param  charsUsed
+     * @param words
+     * 
+     */
     public static void findNeighbors(String[][] arr, int x, int y, String targetWord, String currentWord,
             boolean[][] charsUsed, List<String> words) {
         // Keeping track of char for debugging purposes
@@ -120,7 +136,10 @@ public class Bookworm {
 
         }
     }
-
+    /**
+     * Prints the grid in a bookworm-esque fashion
+     * @param grid
+     */
     public static void printGrid(String[][] grid) {
 
         System.out.println();
